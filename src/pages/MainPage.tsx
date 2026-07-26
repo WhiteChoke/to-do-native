@@ -88,7 +88,7 @@ function MainPage() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "FFDF7",
+    backgroundColor: "#FFDF7",
     alignItems: "center",
     width: "100%",
     paddingHorizontal: 60,

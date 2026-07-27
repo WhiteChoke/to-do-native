@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         paddingVertical: 5,
         borderRadius: 15,
-        marginVertical: 8
+        marginVertical: 8,
     },
     taskState: {
         borderRadius: 5,
@@ -72,7 +72,8 @@ const styles = StyleSheet.create({
         width: 25
     },
     title: {
-        fontSize: 24
+        fontSize: 24,
+        flexShrink: 1
     },
     deleteImage: {
         height: 25,

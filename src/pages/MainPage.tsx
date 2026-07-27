@@ -1,8 +1,6 @@
-import { FlatList, Pressable, StyleSheet, Text, View } from "react-native";
+import { FlatList, StyleSheet, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import CustomInput from "../components/CustomInput";
 import { useEffect, useState } from "react";
-import CusptomButton from "../components/CustomButton";
 import SearchInput from "../components/SearchInput";
 import Textbutton from "../components/TextButton";
 import Header from "../components/Header";

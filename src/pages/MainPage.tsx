@@ -1,4 +1,4 @@
-import { FlatList, StyleSheet, Text, View } from "react-native";
+import { FlatList, Pressable, StyleSheet, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import CustomInput from "../components/CustomInput";
 import { useEffect, useState } from "react";
@@ -10,12 +10,16 @@ import { Task } from "../db/models/taskModel";
 import { deleteAllTask, getTasks, getTasksByFilter, saveTask } from "../db/repository/TaskReposotory";
 import TaskItem from "../components/TaskItem";
 import { useTaskListContext } from "../context/taskContext/taskContext";
+import CreateTaksModal from "../components/CreateTaskModal";
+import ImageButton from "../components/ImageButton";
 
 function MainPage() {
   const insets = useSafeAreaInsets();
 
-  const {taskList, setTaskList} = useTaskListContext();
+  const { taskList, setTaskList } = useTaskListContext();
   const [title, setTitle] = useState<string>("");
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+
 
   useEffect(() => {
     async function loadTasks() {
@@ -50,45 +54,45 @@ function MainPage() {
   }
 
   return (
-    <View
-      style={[
-        styles.container,
-        { paddingTop: insets.top, paddingBottom: insets.bottom },
-      ]}
-    >
-      <Header text="To Do List" />
-      <View style={styles.createTask}>
-        <CustomInput
-          placeholder="New task title"
-          value={title}
-          setValue={setTitle}
+    <View style={[styles.mainContainer, { paddingTop: insets.top, paddingBottom: insets.bottom }]}>
+        <View style={styles.taskContainer}>
+          <Header text="To Do List" />
+          <SearchInput placeholder="Search task" filter={filterData} />
+          <View style={styles.taskDataContainer}>
+            <Text>Total Tasks: {taskList.length}</Text>
+            <Textbutton onPress={deleteTasks} text="Delete All" />
+          </View>
+          <FlatList
+            style={styles.taskList}
+            data={taskList}
+            keyExtractor={t => t.id.toString()}
+            renderItem={t =>
+              <TaskItem
+                id={t.item.id}
+                isComplited={t.item.isComplited}
+                title={t.item.title} />
+            }
+          />
+          <CreateTaksModal setIsVisible={setIsModalVisible} isVisible={isModalVisible} />
+        </View>
+        <ImageButton
+          onPress={() => setIsModalVisible(true)}
+          imagePath={require("../../assets/add.png")}
+          imageStyle={{height: 75, width: 75}}
+          style={{marginLeft: "auto", marginRight: 30}}
         />
-        <CusptomButton text="Add" onPress={() => addTask()} />
-      </View>
-      <SearchInput placeholder="Search task" filter={filterData} />
-      <View style={styles.taskDataContainer}>
-        <Text>Total Tasks: {taskList.length}</Text>
-        <Textbutton onPress={deleteTasks} text="Delete All" />
-      </View>
-      <FlatList
-        style={styles.taskList}
-        data={taskList}
-        keyExtractor={t => t.id.toString()}
-        renderItem={t =>
-          <TaskItem
-            id={t.item.id}
-            isComplited={t.item.isComplited}
-            title={t.item.title} />
-        }
-      />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  mainContainer: {
     flex: 1,
-    backgroundColor: "#FFDF7",
+    backgroundColor: "#FFFDF7",
+    justifyContent: "space-between"
+  },
+  taskContainer: {
+    flex: 1,
     alignItems: "center",
     width: "100%",
     paddingHorizontal: 60,

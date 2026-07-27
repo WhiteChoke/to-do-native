@@ -5,7 +5,7 @@ interface ButtonProps {
   onPress: () => void;
 }
 
-function CusptomButton(props: Readonly<ButtonProps>) {
+function CustomButton(props: Readonly<ButtonProps>) {
   return (
     <TouchableOpacity style={styles.customButton} onPress={props.onPress}>
       <Text style={styles.buttonText}>{props.text}</Text>
@@ -26,4 +26,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CusptomButton;
+export default CustomButton;

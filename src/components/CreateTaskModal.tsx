@@ -28,7 +28,12 @@ function CreateTaksModal(props: CreateTaskModalProps) {
       onValueChange: (_, selectedDate) => setDate(selectedDate),
       mode: currentMode,
       is24Hour: true,
-      design: "material",
+      /** 
+       be fucking carefull to change "default" -> "material" 
+       or your apk will crush af when u'll try to change date
+       i think i need to change app.json
+      **/
+      design: "default",
       minimumDate: new Date(),
     });
   };

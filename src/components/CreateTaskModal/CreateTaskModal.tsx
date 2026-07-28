@@ -1,12 +1,14 @@
 import { useState } from "react";
-import { useTaskListContext } from "../context/taskContext/taskContext";
+import { useTaskListContext } from "../../context/taskContext/taskContext";
 import { Modal, Pressable, StyleSheet, Text, View } from "react-native";
-import CustomInput from "./CustomInput";
-import CustomButton from "./CustomButton";
-import { saveTask } from "../db/repository/TaskReposotory";
-import { Task } from "../db/models/taskModel";
+import CustomInput from "../CustomInput/CustomInput";
+import CustomButton from "../CustomButton/CustomButton";
+import { saveTask } from "../../db/repository/TaskReposotory";
+import { Task } from "../../db/models/taskModel";
 import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
-import Textbutton from "./TextButton";
+import Textbutton from "../TextButton";
+import createTaskModalStyle from "./createTaskModelStyle";
+import { useThemeContext } from "../../context/themeContext/themeContext";
 
 interface CreateTaskModalProps {
   isVisible: boolean;
@@ -21,6 +23,9 @@ function CreateTaksModal(props: CreateTaskModalProps) {
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [date, setDate] = useState(new Date());
+
+    const theme = useThemeContext();
+    const styles = createTaskModalStyle(theme.pallate); 
 
   function selectDate(currentMode: dateMode): void {
     DateTimePickerAndroid.open({
@@ -68,8 +73,8 @@ function CreateTaksModal(props: CreateTaskModalProps) {
             placeholder="New task description"
             value={description}
             setValue={setDescription}
-            style={{height: 150}}
-            multiline={true}       
+            style={{ height: 150 }}
+            multiline={true}
           />
           <View>
             <View style={styles.dateContainer}>
@@ -96,28 +101,5 @@ function CreateTaksModal(props: CreateTaskModalProps) {
     </Modal>
   );
 }
-
-const styles = StyleSheet.create({
-  touchableContainer: {
-    flex: 1,
-    backgroundColor: "#00000080",
-    alignItems: "center",
-    justifyContent: "center",
-    width: "100%",
-    paddingHorizontal: 60,
-    flexDirection: "column"
-  },
-  mainContainer: {
-    backgroundColor: "#FFFDF7",
-    alignItems: "stretch",
-    width: "100%",
-    borderRadius: 15,
-    padding: 10,
-    gap: 15
-  },
-  dateContainer: {
-    flexDirection: "row",
-  },
-});
 
 export default CreateTaksModal;

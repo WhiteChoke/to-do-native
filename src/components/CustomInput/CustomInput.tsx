@@ -1,4 +1,6 @@
 import { StyleSheet, TextInput, TextStyle } from "react-native";
+import { useThemeContext } from "../../context/themeContext/themeContext";
+import customInputStyle from "./customInputStyle";
 
 interface InputProps {
     placeholder: string,
@@ -9,6 +11,9 @@ interface InputProps {
 }
 
 function CustomInput(props: Readonly<InputProps>) {
+    const theme = useThemeContext();
+    const styles = customInputStyle(theme.pallate); 
+
     return ( 
         <TextInput 
             placeholder={props.placeholder}
@@ -23,15 +28,5 @@ function CustomInput(props: Readonly<InputProps>) {
         />
      );
 }
-
-const styles = StyleSheet.create({
-    customInput: {
-        borderWidth: 1,
-        borderColor: "#D9D9D9",
-        borderStyle: "solid",
-        borderRadius: 10,
-        paddingHorizontal: 10,
-    }
-})
 
 export default CustomInput;

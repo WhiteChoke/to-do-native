@@ -1,11 +1,15 @@
-import { useEffect, useMemo, useState } from "react";
-import { colorScheme, darkPallete, lightPalette, Palette } from "../../theme/palette";
-import { getTheme } from "../../db/repository/ThemeRepository";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { colorScheme, darkPallete, lightPalette } from "../../theme/palette";
+import { getTheme, setTheme } from "../../db/repository/ThemeRepository";
 import { ThemeContext, ThemeContextType } from "./themeContext";
+
+const pallates = {
+    "light": lightPalette,
+    "dark": darkPallete
+}
 
 function ThemeContextProvider({ children }: { children: React.ReactNode }) {
     const [currentTheme, setCurrentTheme] = useState<colorScheme>("light");
-    const [pallate, setPallate] = useState<Palette>(lightPalette);
 
     useEffect(() => {
         getTheme()
@@ -13,12 +17,22 @@ function ThemeContextProvider({ children }: { children: React.ReactNode }) {
             .catch(() => console.log("failed to load theme"))
     }, []);
 
+    const changeTheme = useCallback(async () => {
+        const theme = currentTheme === "light"
+            ? "dark"
+            : "light" 
+        setCurrentTheme(theme);
+
+        await setTheme(theme);
+    }, [currentTheme]);
+
+    const currentPallete = pallates[currentTheme];
 
     const contextValue = useMemo<ThemeContextType>(() => ({
-        currentTheme, 
-        setCurrentTheme, 
-        pallate
-    }), [currentTheme, pallate])
+        theme: currentTheme,
+        changeTheme: changeTheme,
+        pallate: currentPallete
+    }), [currentTheme, changeTheme, currentPallete])
 
     return (
         <ThemeContext.Provider value={contextValue}>

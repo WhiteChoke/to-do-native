@@ -5,13 +5,13 @@ export async function getTheme(): Promise<colorScheme> {
     const theme = await AsyncStorage.getItem("theme");
 
     if (!theme) {
-        return await changeTheme("light");
+        return await setTheme("light");
     }
 
     return theme as colorScheme;
 }
 
-export async function changeTheme(scheme: colorScheme): Promise<colorScheme> {
+export async function setTheme(scheme: colorScheme): Promise<colorScheme> {
     await AsyncStorage.setItem("theme", scheme)
 
     return scheme;

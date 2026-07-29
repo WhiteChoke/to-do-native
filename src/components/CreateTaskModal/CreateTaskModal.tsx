@@ -8,7 +8,7 @@ import { Task } from "../../db/models/taskModel";
 import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
 import Textbutton from "../TextButton";
 import createTaskModalStyle from "./createTaskModelStyle";
-import { useThemeContext } from "../../context/themeContext/themeContext";
+import useTheme from "../../hooks/useTheme";
 
 interface CreateTaskModalProps {
   isVisible: boolean;
@@ -24,8 +24,7 @@ function CreateTaksModal(props: CreateTaskModalProps) {
   const [description, setDescription] = useState<string>("");
   const [date, setDate] = useState(new Date());
 
-    const theme = useThemeContext();
-    const styles = createTaskModalStyle(theme.pallate); 
+  const styles = useTheme(createTaskModalStyle); 
 
   function selectDate(currentMode: dateMode): void {
     DateTimePickerAndroid.open({

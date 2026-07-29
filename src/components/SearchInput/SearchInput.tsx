@@ -1,6 +1,6 @@
-import { Image, StyleSheet, TextInput, View } from "react-native";
+import { Image, TextInput, View } from "react-native";
 import searchInputStyle from "./searchInputStyle";
-import { useThemeContext } from "../../context/themeContext/themeContext";
+import useTheme from "../../hooks/useTheme";
 
 interface SearchInputProps {
     placeholder: string,
@@ -8,8 +8,7 @@ interface SearchInputProps {
 }
 
 function SearchInput(props: Readonly<SearchInputProps>) {
-    const theme = useThemeContext();
-    const styles = searchInputStyle(theme.pallate); 
+    const styles = useTheme(searchInputStyle); 
 
     return ( 
         <View style={styles.inputContainer}>

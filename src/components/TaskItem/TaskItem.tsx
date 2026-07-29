@@ -1,20 +1,19 @@
 import Checkbox from "expo-checkbox";
-import { StyleSheet, Text, View } from "react-native";
+import { Text, View } from "react-native";
 import { Task } from "../../db/models/taskModel";
 import { useState } from "react";
 import { changeTaskState, deleteTaskById } from "../../db/repository/TaskReposotory";
 import ImageButton from "../ImageButton";
 import { useTaskListContext } from "../../context/taskContext/taskContext";
-import { useThemeContext } from "../../context/themeContext/themeContext";
 import taskItemStyle from "./taskItemStyle";
+import useTheme from "../../hooks/useTheme";
 
 function TaskItem(props: Task) {
 
     const { taskList, setTaskList } = useTaskListContext();
     const [taskState, setTaskState] = useState<boolean>(props.isComplited)
 
-    const theme = useThemeContext();
-    const styles = taskItemStyle(theme.pallate);
+    const styles = useTheme(taskItemStyle);
 
     async function handleToggle() {
         try {

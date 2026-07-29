@@ -1,6 +1,6 @@
-import { StyleSheet, TextInput, TextStyle } from "react-native";
-import { useThemeContext } from "../../context/themeContext/themeContext";
+import { TextInput, TextStyle } from "react-native";
 import customInputStyle from "./customInputStyle";
+import useTheme from "../../hooks/useTheme";
 
 interface InputProps {
     placeholder: string,
@@ -11,8 +11,7 @@ interface InputProps {
 }
 
 function CustomInput(props: Readonly<InputProps>) {
-    const theme = useThemeContext();
-    const styles = customInputStyle(theme.pallate); 
+    const styles = useTheme(customInputStyle); 
 
     return ( 
         <TextInput 

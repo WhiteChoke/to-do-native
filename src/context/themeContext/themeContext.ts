@@ -2,8 +2,8 @@ import { createContext, useContext } from "react";
 import { colorScheme, Palette } from "../../theme/palette";
 
 export interface ThemeContextType {
-    currentTheme: colorScheme,
-    setCurrentTheme: (value: colorScheme) => void,
+    theme: colorScheme,
+    changeTheme: () => void,
     pallate: Palette,
 };
 

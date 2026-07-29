@@ -1,4 +1,4 @@
-import { FlatList, StyleSheet, Text, View } from "react-native";
+import { Button, FlatList, StyleSheet, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useEffect, useState } from "react";
 import SearchInput from "../../components/SearchInput/SearchInput";
@@ -12,15 +12,16 @@ import CreateTaksModal from "../../components/CreateTaskModal/CreateTaskModal";
 import ImageButton from "../../components/ImageButton";
 import { useThemeContext } from "../../context/themeContext/themeContext";
 import mainPageStyle from "./mainPageStyle";
+import useTheme from "../../hooks/useTheme";
 
 function MainPage() {
   const insets = useSafeAreaInsets();
 
   const { taskList, setTaskList } = useTaskListContext();
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
-  const theme = useThemeContext();
-  const styles = mainPageStyle(theme.pallate); 
-
+  const { changeTheme } = useThemeContext();
+  const styles = useTheme(mainPageStyle); 
+  
   useEffect(() => {
     async function loadTasks() {
       const tasks = await getTasks();
@@ -70,6 +71,7 @@ function MainPage() {
         imageStyle={{ height: 75, width: 75 }}
         style={{ marginLeft: "auto", marginRight: 30 }}
       />
+      <Button title="change theme" onPress={changeTheme}/>
     </View>
   );
 }

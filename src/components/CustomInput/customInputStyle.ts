@@ -9,6 +9,7 @@ export default function customInputStyle(theme: Palette) {
         borderStyle: "solid",
         borderRadius: 10,
         paddingHorizontal: 10,
+        color: theme.text
     }
 })
 }

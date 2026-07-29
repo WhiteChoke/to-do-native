@@ -1,5 +1,5 @@
 import Checkbox from "expo-checkbox";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 import { Task } from "../../db/models/taskModel";
 import { useState } from "react";
 import { changeTaskState, deleteTaskById } from "../../db/repository/TaskReposotory";
@@ -7,11 +7,15 @@ import ImageButton from "../ImageButton";
 import { useTaskListContext } from "../../context/taskContext/taskContext";
 import taskItemStyle from "./taskItemStyle";
 import useTheme from "../../hooks/useTheme";
+import CustomText from "../CustomText/CustomText";
+import { useThemeContext } from "../../context/themeContext/themeContext";
 
 function TaskItem(props: Task) {
 
     const { taskList, setTaskList } = useTaskListContext();
     const [taskState, setTaskState] = useState<boolean>(props.isComplited)
+
+    const { theme, pallate } = useThemeContext();
 
     const styles = useTheme(taskItemStyle);
 
@@ -41,11 +45,14 @@ function TaskItem(props: Task) {
                 value={taskState}
                 onValueChange={handleToggle}
                 style={styles.taskState}
-                color="#2C2C2C"
+                color={pallate.checkboxBorder}
             />
-            <Text style={styles.title}>{props.title}</Text>
+            <CustomText style={styles.title}>{props.title}</CustomText>
             <ImageButton
-                imagePath={require("../../../assets/close.png")}
+                imagePath={theme === "light" 
+                    ? require("../../../assets/close-dark.png") 
+                    : require("../../../assets/close-light.png")
+                }
                 onPress={deleteTask}
                 imageStyle={styles.deleteImage}
                 style={styles.deleteButton}

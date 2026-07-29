@@ -8,10 +8,11 @@ export default function customButtonStyle(theme: Palette) {
         borderRadius: 10,
         justifyContent: "center",
         alignContent: "center",
+        alignItems: "center",
         padding: 10,
       },
-      buttonText: {
-        color: "white",
-      },
+      customBottonText: {
+        color: theme.customButtonText
+      }
     });
 }

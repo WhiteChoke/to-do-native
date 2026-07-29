@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useTaskListContext } from "../../context/taskContext/taskContext";
-import { Modal, Pressable, StyleSheet, Text, View } from "react-native";
+import { Modal, Pressable, View } from "react-native";
 import CustomInput from "../CustomInput/CustomInput";
 import CustomButton from "../CustomButton/CustomButton";
 import { saveTask } from "../../db/repository/TaskReposotory";
@@ -9,6 +9,7 @@ import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
 import Textbutton from "../TextButton";
 import createTaskModalStyle from "./createTaskModelStyle";
 import useTheme from "../../hooks/useTheme";
+import CustomText from "../CustomText/CustomText";
 
 interface CreateTaskModalProps {
   isVisible: boolean;
@@ -77,14 +78,14 @@ function CreateTaksModal(props: CreateTaskModalProps) {
           />
           <View>
             <View style={styles.dateContainer}>
-              <Text>Select date: </Text>
+              <CustomText>Select date: </CustomText>
               <Textbutton
                 onPress={() => selectDate('date')}
                 text={date.toLocaleDateString()}
               />
             </View>
             <View style={styles.dateContainer}>
-              <Text>Select time: </Text>
+              <CustomText>Select time: </CustomText>
               <Textbutton
                 onPress={() => selectDate('time')}
                 text={date.toLocaleTimeString()}

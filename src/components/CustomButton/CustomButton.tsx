@@ -1,6 +1,7 @@
-import { Text, TouchableOpacity } from "react-native";
+import { TouchableOpacity } from "react-native";
 import customButtonStyle from "./customButtomStyle";
 import useTheme from "../../hooks/useTheme";
+import CustomText from "../CustomText/CustomText";
 
 interface ButtonProps {
   text: string;
@@ -11,7 +12,7 @@ function CustomButton(props: Readonly<ButtonProps>) {
     const styles = useTheme(customButtonStyle); 
   return (
     <TouchableOpacity style={styles.customButton} onPress={props.onPress}>
-      <Text style={styles.buttonText}>{props.text}</Text>
+      <CustomText style={styles.customBottonText}>{props.text}</CustomText>
     </TouchableOpacity>
   );
 }

@@ -24,6 +24,7 @@ export default function taskItemStyle(theme: Palette) {
             width: 25
         },
         title: {
+            color: theme.text,
             fontSize: 24,
             flexShrink: 1
         },

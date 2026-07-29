@@ -1,11 +1,10 @@
-import { Button, FlatList, StyleSheet, Text, View } from "react-native";
+import { Button, FlatList, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useEffect, useState } from "react";
 import SearchInput from "../../components/SearchInput/SearchInput";
 import Textbutton from "../../components/TextButton";
 import Header from "../../components/Header/Header";
-import { Task } from "../../db/models/taskModel";
-import { deleteAllTask, getTasks, getTasksByFilter, saveTask } from "../../db/repository/TaskReposotory";
+import { deleteAllTask, getTasks, getTasksByFilter } from "../../db/repository/TaskReposotory";
 import TaskItem from "../../components/TaskItem/TaskItem";
 import { useTaskListContext } from "../../context/taskContext/taskContext";
 import CreateTaksModal from "../../components/CreateTaskModal/CreateTaskModal";
@@ -13,13 +12,14 @@ import ImageButton from "../../components/ImageButton";
 import { useThemeContext } from "../../context/themeContext/themeContext";
 import mainPageStyle from "./mainPageStyle";
 import useTheme from "../../hooks/useTheme";
+import CustomText from "../../components/CustomText/CustomText";
 
 function MainPage() {
   const insets = useSafeAreaInsets();
 
   const { taskList, setTaskList } = useTaskListContext();
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
-  const { changeTheme } = useThemeContext();
+  const {theme, changeTheme } = useThemeContext();
   const styles = useTheme(mainPageStyle); 
   
   useEffect(() => {
@@ -49,7 +49,7 @@ function MainPage() {
         <Header text="To Do List" />
         <SearchInput placeholder="Search task" filter={filterData} />
         <View style={styles.taskDataContainer}>
-          <Text>Total Tasks: {taskList.length}</Text>
+          <CustomText>Total Tasks: {taskList.length}</CustomText>
           <Textbutton onPress={deleteTasks} text="Delete All" />
         </View>
         <FlatList
@@ -67,7 +67,10 @@ function MainPage() {
       </View>
       <ImageButton
         onPress={() => setIsModalVisible(true)}
-        imagePath={require("../../../assets/add.png")}
+        imagePath= {theme === "light" 
+          ? require("../../../assets/add-dark.png") 
+          : require("../../../assets/add-light.png")
+        }
         imageStyle={{ height: 75, width: 75 }}
         style={{ marginLeft: "auto", marginRight: 30 }}
       />

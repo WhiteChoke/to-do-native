@@ -14,7 +14,8 @@ export default function searchInputStyle(theme: Palette) {
             paddingHorizontal: 10
         },
         searchInput: {
-            flex: 1
+            flex: 1,
+            borderWidth: 0
         }
     })
 }

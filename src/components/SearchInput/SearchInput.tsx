@@ -1,6 +1,8 @@
-import { Image, TextInput, View } from "react-native";
+import { Image, View } from "react-native";
 import searchInputStyle from "./searchInputStyle";
 import useTheme from "../../hooks/useTheme";
+import { useThemeContext } from "../../context/themeContext/themeContext";
+import CustomInput from "../CustomInput/CustomInput";
 
 interface SearchInputProps {
     placeholder: string,
@@ -8,19 +10,23 @@ interface SearchInputProps {
 }
 
 function SearchInput(props: Readonly<SearchInputProps>) {
-    const styles = useTheme(searchInputStyle); 
+    const styles = useTheme(searchInputStyle);
+    const { theme } = useThemeContext();
 
-    return ( 
+    return (
         <View style={styles.inputContainer}>
-            <TextInput 
+            <CustomInput
                 placeholder={props.placeholder}
-                onChangeText={(text: string) => props.filter(text)}
+                setValue={(text: string) => props.filter(text)}
                 style={styles.searchInput}
             />
-            <Image source={require("../../../assets/search.png")}
-                    style={{ width: 15, height: 15 }} />
+            <Image source={theme === "light"
+                ? require("../../../assets/search-dark.png")
+                : require("../../../assets/search-light.png")
+            }
+                style={{ width: 15, height: 15 }} />
         </View>
-     );
+    );
 }
 
 export default SearchInput;

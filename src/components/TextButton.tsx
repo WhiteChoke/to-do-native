@@ -1,4 +1,5 @@
-import { StyleSheet, Text, TouchableOpacity } from "react-native";
+import { StyleSheet, TouchableOpacity } from "react-native";
+import CustomText from "./CustomText/CustomText";
 
 interface TextButtonProps {
     onPress: () => void,
@@ -11,7 +12,7 @@ function Textbutton(props: Readonly<TextButtonProps>) {
           style={styles.textButton}
           onPress={props.onPress}
         >
-            <Text>{props.text}</Text>
+            <CustomText>{props.text}</CustomText>
         </TouchableOpacity>
     );
 }

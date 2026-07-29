@@ -1,4 +1,4 @@
-import { Button, FlatList, View } from "react-native";
+import { FlatList, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useEffect, useState } from "react";
 import SearchInput from "../../components/SearchInput/SearchInput";
@@ -19,9 +19,9 @@ function MainPage() {
 
   const { taskList, setTaskList } = useTaskListContext();
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
-  const {theme, changeTheme } = useThemeContext();
-  const styles = useTheme(mainPageStyle); 
-  
+  const { theme, changeTheme } = useThemeContext();
+  const styles = useTheme(mainPageStyle);
+
   useEffect(() => {
     async function loadTasks() {
       const tasks = await getTasks();
@@ -65,16 +65,24 @@ function MainPage() {
         />
         <CreateTaksModal setIsVisible={setIsModalVisible} isVisible={isModalVisible} />
       </View>
-      <ImageButton
-        onPress={() => setIsModalVisible(true)}
-        imagePath= {theme === "light" 
-          ? require("../../../assets/add-dark.png") 
-          : require("../../../assets/add-light.png")
-        }
-        imageStyle={{ height: 75, width: 75 }}
-        style={{ marginLeft: "auto", marginRight: 30 }}
-      />
-      <Button title="change theme" onPress={changeTheme}/>
+      <View style={styles.bottomButtons}>
+        <ImageButton
+          onPress={changeTheme}
+          imagePath={theme === "light"
+            ? require("../../../assets/moon.png")
+            : require("../../../assets/sun.png")
+          }
+          imageStyle={{ height: 50, width: 50 }}
+        />
+        <ImageButton
+          onPress={() => setIsModalVisible(true)}
+          imagePath={theme === "light"
+            ? require("../../../assets/add-dark.png")
+            : require("../../../assets/add-light.png")
+          }
+          imageStyle={{ height: 75, width: 75 }}
+        />
+      </View>
     </View>
   );
 }

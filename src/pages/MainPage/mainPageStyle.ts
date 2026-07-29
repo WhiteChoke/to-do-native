@@ -28,6 +28,14 @@ export default function mainPageStyle(theme: Palette) {
         taskList: {
             flex: 1,
             width: "100%",
+        },
+        bottomButtons: {
+            flexDirection: "row",
+            justifyContent: "space-between",
+            marginTop: "auto",
+            alignItems: "center",
+            marginHorizontal: 30,
+            marginBottom: 10
         }
     });
 }

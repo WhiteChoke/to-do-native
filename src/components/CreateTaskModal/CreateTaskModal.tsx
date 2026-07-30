@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useTaskListContext } from "../../context/taskContext/taskContext";
-import { Modal, Pressable, View } from "react-native";
+import { Alert, Modal, Pressable, View } from "react-native";
 import CustomInput from "../CustomInput/CustomInput";
 import CustomButton from "../CustomButton/CustomButton";
 import { saveTask } from "../../db/repository/TaskReposotory";
@@ -11,6 +11,8 @@ import createTaskModalStyle from "./createTaskModelStyle";
 import useTheme from "../../hooks/useTheme";
 import CustomText from "../CustomText/CustomText";
 import * as Notifications from 'expo-notifications';
+import Checkbox from "expo-checkbox";
+import { useThemeContext } from "../../context/themeContext/themeContext";
 
 
 interface CreateTaskModalProps {
@@ -23,11 +25,15 @@ type dateMode = "date" | "time"
 function CreateTaksModal(props: CreateTaskModalProps) {
   const { taskList, setTaskList } = useTaskListContext();
 
+  const currnetDate = new Date();
+
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [date, setDate] = useState(new Date());
+  const [activateNotify, setActivateNotify] = useState<boolean>(false)
 
   const styles = useTheme(createTaskModalStyle);
+  const { pallate } = useThemeContext();
 
   function selectDate(currentMode: dateMode): void {
     DateTimePickerAndroid.open({
@@ -41,7 +47,7 @@ function CreateTaksModal(props: CreateTaskModalProps) {
        i think i need to change app.json
       **/
       design: "default",
-      minimumDate: new Date(),
+      minimumDate: currnetDate,
     });
   };
 
@@ -49,25 +55,28 @@ function CreateTaksModal(props: CreateTaskModalProps) {
     const taskTitle = title.trim();
 
     if (taskTitle.length <= 0) { return; }
+    if (activateNotify && currnetDate > date) {
+      Alert.alert("The date must be earlier than the current moment.")
+    }
 
     const createdTask = await saveTask({ title: taskTitle, description: description, isComplited: false } as Task);
 
-    await Notifications.scheduleNotificationAsync({
-      content: {
-        title: "Quick Reminder 📌",
-        body: title,
-      },
-      trigger: {
-        type: Notifications.SchedulableTriggerInputTypes.DATE,
-        date: date
-      },
-    });
+    if (activateNotify) {
+      await Notifications.scheduleNotificationAsync({
+        content: {
+          title: "Quick Reminder 📌",
+          body: title,
+        },
+        trigger: {
+          type: Notifications.SchedulableTriggerInputTypes.DATE,
+          date: date
+        },
+      });
+    }
 
     setTaskList([...taskList, createdTask]);
     setTitle("");
     setDescription("");
-
-    props.setIsVisible(false);
   }
 
   return (
@@ -76,7 +85,7 @@ function CreateTaksModal(props: CreateTaskModalProps) {
       transparent={true}
     >
       <Pressable style={styles.touchableContainer} onPress={() => props.setIsVisible(false)}>
-        <View style={styles.mainContainer}>
+        <Pressable style={styles.mainContainer} onPress={(e) => e.stopPropagation()}>
           <CustomInput
             placeholder="New task title"
             value={title}
@@ -90,26 +99,38 @@ function CreateTaksModal(props: CreateTaskModalProps) {
             multiline={true}
           />
           <View>
-            <View style={styles.dateContainer}>
-              <CustomText>Select date: </CustomText>
-              <Textbutton
-                onPress={() => selectDate('date')}
-                text={date.toLocaleDateString()}
+            <View style={styles.notificationSelector}>
+              <Checkbox
+                value={activateNotify}
+                color={pallate.checkboxBorder}
+                onValueChange={() => setActivateNotify(!activateNotify)}
               />
+              <CustomText>Send notification</CustomText>
             </View>
-            <View style={styles.dateContainer}>
-              <CustomText>Select time: </CustomText>
-              <Textbutton
-                onPress={() => selectDate('time')}
-                text={date.toLocaleTimeString()}
-              />
-            </View>
+            {activateNotify && <View>
+              <View style={styles.dateContainer}>
+                <CustomText style={styles.textStyle}>Select date: </CustomText>
+                <Textbutton
+                  onPress={() => selectDate('date')}
+                  text={date.toLocaleDateString()}
+                  style={[styles.textStyle, styles.dateSelector]}
+                />
+              </View>
+              <View style={styles.dateContainer}>
+                <CustomText style={styles.textStyle}>Select time: </CustomText>
+                <Textbutton
+                  onPress={() => selectDate('time')}
+                  text={date.toLocaleTimeString()}
+                  style={[styles.textStyle, styles.dateSelector]}
+                />
+              </View>
+            </View>}
           </View>
           <CustomButton
             text="Add"
             onPress={() => addTask()}
           />
-        </View>
+        </Pressable>
       </Pressable>
     </Modal>
   );

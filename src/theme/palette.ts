@@ -9,6 +9,7 @@ export interface Palette {
     checkboxBorder: string,
     customButtonText: string,
     placeholderTextColor: string,
+    touchableText: string,
 };
 
 export const lightPalette: Palette = {
@@ -20,6 +21,7 @@ export const lightPalette: Palette = {
     checkboxBorder: "#2C2C2C",
     customButtonText: "#fff",
     placeholderTextColor: "#000",
+    touchableText: "#89CFEF",
 }
 
 export const darkPallete: Palette = {
@@ -31,4 +33,5 @@ export const darkPallete: Palette = {
     checkboxBorder: "#E5E5E5",
     customButtonText: "#000",
     placeholderTextColor: "#fff",
+    touchableText: "#89CFEF", 
 }

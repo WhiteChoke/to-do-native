@@ -3,7 +3,7 @@ import { Text, TextStyle } from "react-native";
 import { useThemeContext } from "../../context/themeContext/themeContext";
 
 interface TextType {
-    style?: TextStyle;
+    style?: TextStyle | TextStyle[];
     children: ReactNode
 }
 

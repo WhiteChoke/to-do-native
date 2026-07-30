@@ -49,8 +49,8 @@ function TaskItem(props: Task) {
             />
             <CustomText style={styles.title}>{props.title}</CustomText>
             <ImageButton
-                imagePath={theme === "light" 
-                    ? require("../../../assets/close-dark.png") 
+                imagePath={theme === "light"
+                    ? require("../../../assets/close-dark.png")
                     : require("../../../assets/close-light.png")
                 }
                 onPress={deleteTask}

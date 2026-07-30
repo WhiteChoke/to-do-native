@@ -10,6 +10,8 @@ import Textbutton from "../TextButton";
 import createTaskModalStyle from "./createTaskModelStyle";
 import useTheme from "../../hooks/useTheme";
 import CustomText from "../CustomText/CustomText";
+import * as Notifications from 'expo-notifications';
+
 
 interface CreateTaskModalProps {
   isVisible: boolean;
@@ -25,7 +27,7 @@ function CreateTaksModal(props: CreateTaskModalProps) {
   const [description, setDescription] = useState<string>("");
   const [date, setDate] = useState(new Date());
 
-  const styles = useTheme(createTaskModalStyle); 
+  const styles = useTheme(createTaskModalStyle);
 
   function selectDate(currentMode: dateMode): void {
     DateTimePickerAndroid.open({
@@ -49,6 +51,17 @@ function CreateTaksModal(props: CreateTaskModalProps) {
     if (taskTitle.length <= 0) { return; }
 
     const createdTask = await saveTask({ title: taskTitle, description: description, isComplited: false } as Task);
+
+    await Notifications.scheduleNotificationAsync({
+      content: {
+        title: "Quick Reminder 📌",
+        body: title,
+      },
+      trigger: {
+        type: Notifications.SchedulableTriggerInputTypes.DATE,
+        date: date
+      },
+    });
 
     setTaskList([...taskList, createdTask]);
     setTitle("");

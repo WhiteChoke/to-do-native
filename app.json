@@ -2,6 +2,10 @@
   "expo": {
     "name": "to-do-native",
     "slug": "to-do-native",
+    "scheme": "to-do-native",
+    "experiments": {
+      "typedRoutes": true
+    },
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -25,7 +29,9 @@
       }
     },
     "plugins": [
-      "@react-native-community/datetimepicker"
+      "@react-native-community/datetimepicker",
+      "expo-router",
+      "expo-status-bar"
     ]
   }
 }

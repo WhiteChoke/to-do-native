@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { Palette } from "../../theme/palette";
+import { Palette } from "../../../theme/palette";
 
 export default function mainPageStyle(theme: Palette) {
     return StyleSheet.create({

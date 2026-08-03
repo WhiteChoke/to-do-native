@@ -1,18 +1,18 @@
 import { FlatList, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useEffect, useState } from "react";
-import SearchInput from "../../components/SearchInput/SearchInput";
-import Textbutton from "../../components/TextButton";
-import Header from "../../components/Header/Header";
-import { deleteAllTask, getTasks, getTasksByFilter } from "../../db/repository/TaskReposotory";
-import TaskItem from "../../components/TaskItem/TaskItem";
-import { useTaskListContext } from "../../context/taskContext/taskContext";
-import CreateTaksModal from "../../components/CreateTaskModal/CreateTaskModal";
-import ImageButton from "../../components/ImageButton";
-import { useThemeContext } from "../../context/themeContext/themeContext";
+import SearchInput from "../../../components/SearchInput/SearchInput";
+import Textbutton from "../../../components/TextButton";
+import Header from "../../../components/Header/Header";
+import { deleteAllTask, getTasks, getTasksByFilter } from "../../../db/repository/TaskReposotory";
+import TaskItem from "../../../components/TaskItem/TaskItem";
+import { useTaskListContext } from "../../../context/taskContext/taskContext";
+import CreateTaksModal from "../../../components/CreateTaskModal/CreateTaskModal";
+import ImageButton from "../../../components/ImageButton";
+import { useThemeContext } from "../../../context/themeContext/themeContext";
 import mainPageStyle from "./mainPageStyle";
-import useTheme from "../../hooks/useTheme";
-import CustomText from "../../components/CustomText/CustomText";
+import useTheme from "../../../hooks/useTheme";
+import CustomText from "../../../components/CustomText/CustomText";
 
 function MainPage() {
   const insets = useSafeAreaInsets();
@@ -69,16 +69,16 @@ function MainPage() {
         <ImageButton
           onPress={changeTheme}
           imagePath={theme === "light"
-            ? require("../../../assets/moon.png")
-            : require("../../../assets/sun.png")
+            ? require("../../../../assets/moon.png")
+            : require("../../../../assets/sun.png")
           }
           imageStyle={{ height: 50, width: 50 }}
         />
         <ImageButton
           onPress={() => setIsModalVisible(true)}
           imagePath={theme === "light"
-            ? require("../../../assets/add-dark.png")
-            : require("../../../assets/add-light.png")
+            ? require("../../../../assets/add-dark.png")
+            : require("../../../../assets/add-light.png")
           }
           imageStyle={{ height: 75, width: 75 }}
         />

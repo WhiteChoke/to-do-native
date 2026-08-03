@@ -1,5 +1,5 @@
 import Checkbox from "expo-checkbox";
-import { View } from "react-native";
+import { TouchableOpacity } from "react-native";
 import { Task } from "../../db/models/taskModel";
 import { useState } from "react";
 import { changeTaskState, deleteTaskById } from "../../db/repository/TaskReposotory";
@@ -9,6 +9,7 @@ import taskItemStyle from "./taskItemStyle";
 import useTheme from "../../hooks/useTheme";
 import CustomText from "../CustomText/CustomText";
 import { useThemeContext } from "../../context/themeContext/themeContext";
+import { router } from "expo-router";
 
 function TaskItem(props: Task) {
 
@@ -39,8 +40,15 @@ function TaskItem(props: Task) {
         }
     }
 
+    function navigateToTask() {
+        router.push({
+            pathname: "../../pages/TaskPage/[id]",
+            params: { id: props.id }
+        })
+    }
+
     return (
-        <View style={styles.taskContainer}>
+        <TouchableOpacity onPress={navigateToTask} style={styles.taskContainer}>
             <Checkbox
                 value={taskState}
                 onValueChange={handleToggle}
@@ -57,7 +65,7 @@ function TaskItem(props: Task) {
                 imageStyle={styles.deleteImage}
                 style={styles.deleteButton}
             />
-        </View>
+        </TouchableOpacity>
     );
 }
 

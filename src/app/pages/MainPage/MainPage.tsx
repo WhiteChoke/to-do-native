@@ -1,5 +1,4 @@
 import { FlatList, View } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useEffect, useState } from "react";
 import SearchInput from "../../../components/SearchInput/SearchInput";
 import Textbutton from "../../../components/TextButton";
@@ -13,10 +12,9 @@ import { useThemeContext } from "../../../context/themeContext/themeContext";
 import mainPageStyle from "./mainPageStyle";
 import useTheme from "../../../hooks/useTheme";
 import CustomText from "../../../components/CustomText/CustomText";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 function MainPage() {
-  const insets = useSafeAreaInsets();
-
   const { taskList, setTaskList } = useTaskListContext();
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const { theme, changeTheme } = useThemeContext();
@@ -44,46 +42,48 @@ function MainPage() {
   }
 
   return (
-    <View style={[styles.mainContainer, { paddingTop: insets.top, paddingBottom: insets.bottom }]}>
-      <View style={styles.taskContainer}>
-        <Header text="To Do List" />
-        <SearchInput placeholder="Search task" filter={filterData} />
-        <View style={styles.taskDataContainer}>
-          <CustomText>Total Tasks: {taskList.length}</CustomText>
-          <Textbutton onPress={deleteTasks} text="Delete All" />
+    <SafeAreaView style={styles.safeArea}>
+      <View style={styles.mainContainer}>
+        <View style={styles.taskContainer}>
+          <Header text="To Do List" />
+          <SearchInput placeholder="Search task" filter={filterData} />
+          <View style={styles.taskDataContainer}>
+            <CustomText>Total Tasks: {taskList.length}</CustomText>
+            <Textbutton onPress={deleteTasks} text="Delete All" />
+          </View>
+          <FlatList
+            style={styles.taskList}
+            data={taskList}
+            keyExtractor={t => t.id.toString()}
+            renderItem={t =>
+              <TaskItem
+                id={t.item.id}
+                isComplited={t.item.isComplited}
+                title={t.item.title} />
+            }
+          />
+          <CreateTaksModal setIsVisible={setIsModalVisible} isVisible={isModalVisible} />
         </View>
-        <FlatList
-          style={styles.taskList}
-          data={taskList}
-          keyExtractor={t => t.id.toString()}
-          renderItem={t =>
-            <TaskItem
-              id={t.item.id}
-              isComplited={t.item.isComplited}
-              title={t.item.title} />
-          }
-        />
-        <CreateTaksModal setIsVisible={setIsModalVisible} isVisible={isModalVisible} />
+        <View style={styles.bottomButtons}>
+          <ImageButton
+            onPress={changeTheme}
+            imagePath={theme === "light"
+              ? require("../../../../assets/moon.png")
+              : require("../../../../assets/sun.png")
+            }
+            imageStyle={{ height: 50, width: 50 }}
+          />
+          <ImageButton
+            onPress={() => setIsModalVisible(true)}
+            imagePath={theme === "light"
+              ? require("../../../../assets/add-dark.png")
+              : require("../../../../assets/add-light.png")
+            }
+            imageStyle={{ height: 75, width: 75 }}
+          />
+        </View>
       </View>
-      <View style={styles.bottomButtons}>
-        <ImageButton
-          onPress={changeTheme}
-          imagePath={theme === "light"
-            ? require("../../../../assets/moon.png")
-            : require("../../../../assets/sun.png")
-          }
-          imageStyle={{ height: 50, width: 50 }}
-        />
-        <ImageButton
-          onPress={() => setIsModalVisible(true)}
-          imagePath={theme === "light"
-            ? require("../../../../assets/add-dark.png")
-            : require("../../../../assets/add-light.png")
-          }
-          imageStyle={{ height: 75, width: 75 }}
-        />
-      </View>
-    </View>
+    </SafeAreaView>
   );
 }
 

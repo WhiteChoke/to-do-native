@@ -36,6 +36,10 @@ export default function mainPageStyle(theme: Palette) {
             alignItems: "center",
             marginHorizontal: 30,
             marginBottom: 10
+        },
+        safeArea: {
+            flex: 1,
+            backgroundColor: theme.background
         }
     });
 }
